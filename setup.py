@@ -9,7 +9,7 @@ from setuptools import setup
 
 
 setup(
-    name="Mask-Prometheus",
+    name="mask-prometheus",
     install_requires=[
         "Mask>=1.0.0a1",
         "Prometheus-client>=0.11.0"
