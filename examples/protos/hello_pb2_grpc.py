@@ -19,7 +19,7 @@ class HelloStub(object):
                 request_serializer=hello__pb2.HelloRequest.SerializeToString,
                 response_deserializer=hello__pb2.HelloResponse.FromString,
                 )
-        self.SayHelloStream = channel.stream_unary(
+        self.SayHelloStream = channel.stream_stream(
                 '/Hello/SayHelloStream',
                 request_serializer=hello__pb2.HelloRequest.SerializeToString,
                 response_deserializer=hello__pb2.HelloResponse.FromString,
@@ -49,7 +49,7 @@ def add_HelloServicer_to_server(servicer, server):
                     request_deserializer=hello__pb2.HelloRequest.FromString,
                     response_serializer=hello__pb2.HelloResponse.SerializeToString,
             ),
-            'SayHelloStream': grpc.stream_unary_rpc_method_handler(
+            'SayHelloStream': grpc.stream_stream_rpc_method_handler(
                     servicer.SayHelloStream,
                     request_deserializer=hello__pb2.HelloRequest.FromString,
                     response_serializer=hello__pb2.HelloResponse.SerializeToString,
@@ -92,7 +92,7 @@ class Hello(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.stream_unary(request_iterator, target, '/Hello/SayHelloStream',
+        return grpc.experimental.stream_stream(request_iterator, target, '/Hello/SayHelloStream',
             hello__pb2.HelloRequest.SerializeToString,
             hello__pb2.HelloResponse.FromString,
             options, channel_credentials,

@@ -35,7 +35,8 @@ def say_hello_stream_handler(request, context):
     message = ""
     for item in request:
         message += item.name
-    return HelloResponse(message="Hello Reply: %s" % message)
+        yield HelloResponse(message="Hello Reply: %s" % item.name)
+    # return HelloResponse(message="Hello Reply: %s" % message)
 
 
 if __name__ == "__main__":

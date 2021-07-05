@@ -2,8 +2,8 @@
 #
 # Usage: `sh build.sh` or `sh build.sh -s ./app/protos`
 #
-scan_dir="./examples"
-python_dir="./venv/bin/python"
+scan_dir="."
+python_dir="../venv/bin/python"
 
 
 Help() {

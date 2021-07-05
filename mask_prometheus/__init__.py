@@ -30,35 +30,35 @@ K_PROMETHEUS_PORT = "PROMETHEUS_PORT"
 
 
 SERVER_STARTED_COUNTER = Counter(
-    "mask_started_total",
+    "grpc_server_started_total",
     "Total number of RPCs started on the server.",
     ["grpc_type", "grpc_service", "grpc_method"]
 )
 
 
 SERVER_HANDLED_COUNTER = Counter(
-    "mask_handled_total",
+    "grpc_server_handled_total",
     "Total numbers of RPCs completed on the server, regardless of success or failure.",
     ["grpc_type", "grpc_service", "grpc_method", "grpc_code"]
 )
 
 
 SERVER_MSG_RECEIVED_TOTAL = Counter(
-    "mask_msg_received_total",
+    "grpc_server_msg_received_total",
     "Total number of RPC stream messages received on the server.",
     ["grpc_type", "grpc_service", "grpc_method"]
 )
 
 
 SERVER_MSG_SENT_TOTAL = Counter(
-    "mask_msg_send_total",
+    "grpc_server_msg_send_total",
     "Total number of RPC stream messages sent by the server.",
     ["grpc_type", "grpc_service", "grpc_method"]
 )
 
 
 SERVER_HANDLED_LATENCY_SECONDS = Histogram(
-    "mask_handling_seconds",
+    "grpc_server_handling_seconds",
     "Histogram of response latency (seconds) of gRPC that had been application-level handled by the server.",
     ["grpc_type", "grpc_service", "grpc_method"]
 )
@@ -179,18 +179,23 @@ class PrometheusInterceptor(grpc.ServerInterceptor):
         def _wrapper(behavior):
             @functools.wraps(behavior)
             def wrapper(request, context):
+                # Deal with request
                 if isinstance(request, grpc._server._RequestIterator):
                     request = _RequestIterator(request, reporter)
                 else:
                     reporter.received_message()
+
                 code = grpc.StatusCode.UNKNOWN
                 try:
                     resp = behavior(request, context)
                     code = context._state.code or grpc.StatusCode.OK
+
+                    # Deal with response
                     if isgenerator(resp):
                         resp = _generator(resp, reporter)
                     else:
                         reporter.sent_message()
+
                 except Exception as e:
                     code = grpc.StatusCode.INTERNAL
                     raise e
@@ -198,6 +203,7 @@ class PrometheusInterceptor(grpc.ServerInterceptor):
                     reporter.handled(code)
                 return resp
             return wrapper
+
         return wrap_server_method_handler(_wrapper, handler)
 
 

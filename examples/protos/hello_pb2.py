@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0bhello.proto\"\x1c\n\x0cHelloRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\" \n\rHelloResponse\x12\x0f\n\x07message\x18\x01 \x01(\t2i\n\x05Hello\x12+\n\x08SayHello\x12\r.HelloRequest\x1a\x0e.HelloResponse\"\x00\x12\x33\n\x0eSayHelloStream\x12\r.HelloRequest\x1a\x0e.HelloResponse\"\x00(\x01\x62\x06proto3'
+  serialized_pb=b'\n\x0bhello.proto\"\x1c\n\x0cHelloRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\" \n\rHelloResponse\x12\x0f\n\x07message\x18\x01 \x01(\t2k\n\x05Hello\x12+\n\x08SayHello\x12\r.HelloRequest\x1a\x0e.HelloResponse\"\x00\x12\x35\n\x0eSayHelloStream\x12\r.HelloRequest\x1a\x0e.HelloResponse\"\x00(\x01\x30\x01\x62\x06proto3'
 )
 
 
@@ -116,7 +116,7 @@ _HELLO = _descriptor.ServiceDescriptor(
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
   serialized_start=79,
-  serialized_end=184,
+  serialized_end=186,
   methods=[
   _descriptor.MethodDescriptor(
     name='SayHello',
